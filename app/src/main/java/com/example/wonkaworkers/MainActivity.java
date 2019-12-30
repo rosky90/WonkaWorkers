@@ -2,6 +2,7 @@ package com.example.wonkaworkers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -72,6 +73,22 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        listWorkers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                OompaBasicInfo worker;
+
+                worker = (OompaBasicInfo) listWorkers.getItemAtPosition(position);
+
+                Intent intntScape = new Intent(MainActivity.this, OompaInfoActivity.class);
+                intntScape.putExtra("idWorker",worker.getId());
+                startActivity(intntScape);
+
 
             }
         });

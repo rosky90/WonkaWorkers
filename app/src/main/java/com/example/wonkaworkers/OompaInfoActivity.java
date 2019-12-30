@@ -2,8 +2,14 @@ package com.example.wonkaworkers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +28,7 @@ public class OompaInfoActivity extends AppCompatActivity {
 
     private int idWorker;
     OompaLoompa worker;
+    Bundle extraFromIntent;
 
     private TextView txtOompaName, txtOompaProfession,txtOompaAge, txtOompaMail, txtOompaHeight,txtOompaCountry;
     private TextView txtOompaGender, txtOompaFavColor, txtOompaFavFood, txtOompaFavSong, txtOompaFavString,txtOompaFavQuote;
@@ -46,9 +53,55 @@ public class OompaInfoActivity extends AppCompatActivity {
         txtOompaFavString = findViewById(R.id.oompa_string);
         txtOompaFavQuote = findViewById(R.id.oompa_quote);
         imgOompa = findViewById(R.id.oompa_img);
-        Bundle extraFromIntent = getIntent().getExtras();
 
+        extraFromIntent = getIntent().getExtras();
         idWorker = extraFromIntent.getInt("idWorker");
+
+
+        btnDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showDetailDialog(OompaInfoActivity.this,getResources().getString(R.string.btn_description),worker.getDescription());
+
+            }
+        });
+
+        txtOompaMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showMailDialog(OompaInfoActivity.this,worker.getEmail());
+
+            }
+        });
+
+        txtOompaFavSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showDetailDialog(OompaInfoActivity.this,getResources().getString(R.string.txtvw_fav_song),worker.getFavorite().getSong());
+
+            }
+        });
+
+        txtOompaFavString.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showDetailDialog(OompaInfoActivity.this,getResources().getString(R.string.txtvw_fav_string),worker.getFavorite().getRandom_string());
+
+            }
+        });
+
+        txtOompaFavQuote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showDetailDialog(OompaInfoActivity.this,getResources().getString(R.string.txtvw_fav_quote),worker.getQuota());
+
+            }
+        });
 
         new getJsonTask().execute("https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas/"+idWorker);
 
@@ -142,6 +195,47 @@ public class OompaInfoActivity extends AppCompatActivity {
         }else{
             txtOompaFavColor.setTextColor(getResources().getColor(R.color.red));
         }
+
+    }
+
+    private void showDetailDialog(Context context, String dialogTitle, String message){
+
+        new AlertDialog.Builder(context)
+                .setTitle(dialogTitle)
+                .setMessage(message)
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .show();
+
+    }
+
+    private void showMailDialog(Context context,String mail){
+
+        new AlertDialog.Builder(context)
+                .setTitle(getResources().getString(R.string.txtvw_mail))
+                .setMessage(mail)
+
+                .setPositiveButton("Send e-mail", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent intntMail = new Intent(Intent.ACTION_SENDTO);
+                        intntMail.setData(Uri.parse("mailto:"+worker.getEmail()));
+                        startActivity(Intent.createChooser(intntMail,"Choice email APP"));
+                    }
+                })
+
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .show();
 
     }
 

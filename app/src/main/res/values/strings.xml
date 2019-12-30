@@ -1,3 +1,7 @@
 <resources>
+
     <string name="app_name">WonkaWorkers</string>
+    <string name="worker_img">image of the worker</string>
+
+
 </resources>

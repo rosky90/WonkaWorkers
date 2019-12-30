@@ -27,7 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
-    ListAdapter stylazer;
+
     RadioGroup genderFilter;
     RadioButton all;
     RadioButton male;
@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     Spinner spnProfessions;
     ListView listWorkers;
 
+    ListAdapter stylazer;
     ArrayList crew;
     ArrayList sexualizedCrew;
     List<String> professions = new ArrayList<>();
+    boolean sexualized=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
                 profession = spnProfessions.getSelectedItem().toString();
 
+                if (sexualized){
+                    filterByProfession(profession,sexualizedCrew);
+                }else{
                     filterByProfession(profession,crew);
+                }
 
             }
 
@@ -78,12 +84,15 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
         if (all.isChecked()){
+            sexualized=false;
             makeList(crew);
         }else if (male.isChecked()){
             sexualizedCrew = filterByGender(0);
+            sexualized=true;
             makeList(sexualizedCrew);
         }else {
             sexualizedCrew = filterByGender(1);
+            sexualized=true;
             makeList(sexualizedCrew);
         }
 

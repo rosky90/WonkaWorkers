@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     ListView listWorkers;
 
     ArrayList crew;
+    ArrayList sexualizedCrew;
     List<String> professions = new ArrayList<>();
 
     @Override
@@ -55,6 +56,16 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+        if (all.isChecked()){
+            makeList(crew);
+        }else if (male.isChecked()){
+            sexualizedCrew = filterByGender(0);
+            makeList(sexualizedCrew);
+        }else {
+            sexualizedCrew = filterByGender(1);
+            makeList(sexualizedCrew);
+        }
 
     }
 
@@ -177,6 +188,47 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         stylazer = new ListAdapter(getApplicationContext(),R.layout.show_item,R.id.black,workersToShow);
 
         listWorkers.setAdapter(stylazer);
+
+    }
+
+    private ArrayList filterByGender (int selection){
+
+        switch (selection){
+
+            case 0:
+
+                ArrayList maleCrew = new ArrayList();
+
+                for (int i=0;i<crew.size();i++){
+
+                    OompaBasicInfo worker = (OompaBasicInfo) crew.get(i);
+
+                    if (worker.getGender().equalsIgnoreCase("M")){
+                        maleCrew.add(worker);
+                    }
+
+                }
+
+                return maleCrew;
+
+            case 1:
+
+                ArrayList femaleCrew = new ArrayList();
+
+                for (int i=0;i<crew.size();i++){
+
+                    OompaBasicInfo worker = (OompaBasicInfo) crew.get(i);
+
+                    if (worker.getGender().equalsIgnoreCase("F")){
+                        femaleCrew.add(worker);
+                    }
+                }
+
+                return femaleCrew;
+
+        }
+
+        return null;
 
     }
 

@@ -1,4 +1,15 @@
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                //
+//                                  @author: Daniel Rosquellas Montero                            //
+//                                                                                                //
+//                                          WonkaWorkers                                          //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 package com.example.wonkaworkers;
+
+//////////  IMPORTS ////////////////////////////////////////////////////////////////////////////////
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,19 +37,30 @@ import java.net.URL;
 
 public class OompaInfoActivity extends AppCompatActivity {
 
+    //////////  VARIABLE DECLARATION    ////////////////////////////////////////////////////////////
+
+    //////////  CLASS OBJECTS   ////////////////////////////////////////////////////////////////////
+
     private int idWorker;
     OompaLoompa worker;
     Bundle extraFromIntent;
+
+    //////////  USER INTERFACE OBJECTS  ////////////////////////////////////////////////////////////
 
     private TextView txtOompaName, txtOompaProfession,txtOompaAge, txtOompaMail, txtOompaHeight,txtOompaCountry;
     private TextView txtOompaGender, txtOompaFavColor, txtOompaFavFood, txtOompaFavSong, txtOompaFavString,txtOompaFavQuote;
     Button btnDescription;
     ImageView imgOompa;
 
+    //////////  ACTIVITY CONSTRUCTION (onCreate)   /////////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oompa_info);
+
+        //////////  VARIABLES - WIDGETS RELATIONS   ////////////////////////////////////////////////
+
         txtOompaName = findViewById(R.id.oompa_name);
         txtOompaProfession = findViewById(R.id.oompa_job);
         txtOompaMail = findViewById(R.id.oompa_mail);
@@ -54,9 +76,16 @@ public class OompaInfoActivity extends AppCompatActivity {
         txtOompaFavQuote = findViewById(R.id.oompa_quote);
         imgOompa = findViewById(R.id.oompa_img);
 
-        extraFromIntent = getIntent().getExtras();
-        idWorker = extraFromIntent.getInt("idWorker");
+        extraFromIntent = getIntent().getExtras();                  //With this will extract the value sended through the intent
+        idWorker = extraFromIntent.getInt("idWorker");         //And store it inside a variable
 
+        //////////  WIDGETS METHODS  ///////////////////////////////////////////////////////////////
+
+
+        /**
+         * The next method generates an event for when the user clicks it will show a Dialog with the
+         * worker description
+         */
 
         btnDescription.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +96,11 @@ public class OompaInfoActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * The next method generates an event for when the user clicks it will show a Dialog with the
+         * worker mail and give us the option to send and e-mail.
+         */
+
         txtOompaMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +109,11 @@ public class OompaInfoActivity extends AppCompatActivity {
 
             }
         });
+
+        /**
+         * The next method generates an event for when the user clicks it will show a Dialog with the
+         * worker's favorite song
+         */
 
         txtOompaFavSong.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +124,11 @@ public class OompaInfoActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * The next method generates an event for when the user clicks it will show a Dialog with the
+         * worker's favorite random string
+         */
+
         txtOompaFavString.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +137,11 @@ public class OompaInfoActivity extends AppCompatActivity {
 
             }
         });
+
+        /**
+         * The next method generates an event for when the user clicks it will show a Dialog with the
+         * worker's favorite quote
+         */
 
         txtOompaFavQuote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +152,17 @@ public class OompaInfoActivity extends AppCompatActivity {
             }
         });
 
+        //The next line of code trigger the task especified below asynchronously
+
         new getJsonTask().execute("https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas/"+idWorker);
 
     }
+
+    /**
+     * The next task will connect to URL passed as parameter and extract all the info in there stored.
+     * That will do it within the "doInBackground()" method and the String returned has to be catched
+     * in the "onPostExecute()" method
+     */
 
     private class getJsonTask extends AsyncTask<String,String,String> {
 
@@ -153,6 +210,15 @@ public class OompaInfoActivity extends AppCompatActivity {
 
         }
 
+        /**
+         * In the next method will recieve the String returned in the previous method ("doInBackground()").
+         * Using Gson library, will create an Object of the extract data from the JSON. Will use the
+         * Picasso library aswell to parse the URL of the image and paint it into the ImageView.
+         * Then we use te widgets to display the information extracted from the JSON.
+         *
+         * @param result - String returned from the "doInBackground()" method
+         */
+
         @Override
         protected void onPostExecute(String result) {
 
@@ -178,6 +244,14 @@ public class OompaInfoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This function will get the gender letter of the worker and depending on that will wirte "Male"
+     * or "Female" in the gender TextView
+     *
+     * @param gender - String of the gender of the worker
+     * @return - String with the complete nomenclature of the gender
+     */
+
     private String writeGender(String gender){
 
         if (gender.equalsIgnoreCase("M")){
@@ -188,6 +262,12 @@ public class OompaInfoActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This procedure will setthe text of the TextView expected to show the favorite color with that color
+     *
+     * @param color - String of the favorite color of the worker
+     */
+
     private void paintFavColor(String color){
 
         if (color.equalsIgnoreCase("blue")){
@@ -197,6 +277,14 @@ public class OompaInfoActivity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * This procedure will show a Dialog with the detailed information of the worker
+     *
+     * @param context - Context where the Dialog must show
+     * @param dialogTitle - String Title of the Dialog
+     * @param message - String for the message of the Dialog
+     */
 
     private void showDetailDialog(Context context, String dialogTitle, String message){
 
@@ -212,6 +300,14 @@ public class OompaInfoActivity extends AppCompatActivity {
                 .show();
 
     }
+
+    /**
+     * This procedure will show a Dialog with the mail of the worker and it will allow us to
+     * send an e-amil to that electronic address
+     *
+     * @param context - Context where the Dialog must show
+     * @param mail - String for the e-mail of the worker
+     */
 
     private void showMailDialog(Context context,String mail){
 

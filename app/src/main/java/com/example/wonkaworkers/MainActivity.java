@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     List<String> professions = new ArrayList<>();   //List with the professions of the crew
     boolean sexualized=false;                       //Boolean to help us combine filters
 
-    //////////  CONSTRUCCIÓN DE LA ACTIVITY (onCreate)   ///////////////////////////////////////////
+    //////////  ACTIVITY CONSTRUCTION (onCreate)   /////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,11 +135,12 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     }
 
+    //////////  CLASS METHODS  /////////////////////////////////////////////////////////////////////
+
     /**
      * The next task will connect to URL passed as parameter and extract all the info in there stored.
-     * That will do it within the "doInBackground" method and the String returned has to be catched
-     * in the "onPostExecute" method
-     *
+     * That will do it within the "doInBackground()" method and the String returned has to be catched
+     * in the "onPostExecute()" method
      */
 
     private class getJsonTask extends AsyncTask<String,String,String> {
@@ -225,7 +226,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     /**
-     *
      * This method is an Override from the RadioGroup class. This method will check which button is
      * pressed and act in consecuence. If "All" is pressed then will set the boolean false and paint
      * the ListView with all the crew. If it's any of the other two buttons it will filter by the
@@ -254,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     /**
-     *
      * This function will get the workers, extract the jobs they do and put it in a List without
      * redundancies (using a method below explained)
      *
@@ -333,7 +332,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     /**
-     *
      * The next function will take the crew ArrayList, defined and constructed above, and cast it in
      * function if we want the male workers or the female workers.
      *
@@ -383,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     /**
-     *
      * The next procedure will check if the option "All" is selected on the Spinner, in that cas it
      * will be painting the "crew" ArrayList on the ListView, if not it will take the profession parameter
      * and compares it with the job of every worker that is inside the second parameter and, in that case,

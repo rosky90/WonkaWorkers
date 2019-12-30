@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -49,6 +51,24 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         female = findViewById(R.id.female);
         spnProfessions = findViewById(R.id.spnr_professions);
         genderFilter.setOnCheckedChangeListener(this);
+
+        spnProfessions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String profession;
+
+                profession = spnProfessions.getSelectedItem().toString();
+
+                    filterByProfession(profession,crew);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         new getJsonTask().execute("https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas?page=1");
 
@@ -229,6 +249,37 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
 
         return null;
+
+    }
+
+    private void filterByProfession (String profession,ArrayList<OompaBasicInfo> workersToFilter){
+
+        ArrayList<OompaBasicInfo> professionals = new ArrayList<>();
+        boolean allJobs = false;
+
+        if (profession.equalsIgnoreCase("All")){
+            allJobs=true;
+        }
+
+        if (!allJobs) {
+
+            for (int i = 0; i < workersToFilter.size(); i++) {
+
+                OompaBasicInfo professional = workersToFilter.get(i);
+
+                if (professional.getProfession().equalsIgnoreCase(profession)) {
+                    professionals.add(professional);
+                }
+
+            }
+
+            makeList(professionals);
+
+        }else{
+
+            makeList(workersToFilter);
+
+        }
 
     }
 

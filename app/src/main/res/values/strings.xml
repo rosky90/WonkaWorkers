@@ -2,6 +2,9 @@
 
     <string name="app_name">WonkaWorkers</string>
     <string name="worker_img">image of the worker</string>
+    <string name="btn_all">All</string>
+    <string name="btn_male">Male</string>
+    <string name="btn_female">Female</string>
 
 
 </resources>

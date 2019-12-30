@@ -6,5 +6,17 @@
     <string name="btn_male">Male</string>
     <string name="btn_female">Female</string>
 
+    <string name="btn_description">Description</string>
+    <string name="txtvw_age">Age:</string>
+    <string name="txtvw_mail">E-mail:</string>
+    <string name="txtvw_height">Height:</string>
+    <string name="txtvw_country">Country:</string>
+    <string name="txtvw_gender">Gender:</string>
+    <string name="txtvw_fav_color">Favorite Color:</string>
+    <string name="txtvw_fav_food">Fvorite Food:</string>
+    <string name="txtvw_fav_song">Favorite Song</string>
+    <string name="txtvw_fav_string">Favorite String</string>
+    <string name="txtvw_fav_quote">Favorite Quote</string>
+
 
 </resources>
